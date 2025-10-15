@@ -62,8 +62,8 @@ namespace DbContext.Migrations.SqlServerDbContext
                 columns: table => new
                 {
                     AttractionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Description = table.Column<string>(type: "varchar(200)", nullable: true),
                     Category = table.Column<int>(type: "int", nullable: false),
                     AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Seeded = table.Column<bool>(type: "bit", nullable: false)
@@ -84,7 +84,7 @@ namespace DbContext.Migrations.SqlServerDbContext
                 columns: table => new
                 {
                     CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Content = table.Column<string>(type: "varchar(200)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
                     AttractionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -108,33 +108,14 @@ namespace DbContext.Migrations.SqlServerDbContext
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_StreetAddress_City_Country",
-                table: "Addresses",
-                columns: new[] { "StreetAddress", "City", "Country" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Attractions_AddressId",
                 table: "Attractions",
-                column: "AddressId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attractions_Name_Description",
-                table: "Attractions",
-                columns: new[] { "Name", "Description" },
-                unique: true);
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AttractionId",
                 table: "Comments",
                 column: "AttractionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_Content_Type",
-                table: "Comments",
-                columns: new[] { "Content", "Type" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
@@ -144,8 +125,7 @@ namespace DbContext.Migrations.SqlServerDbContext
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
                 table: "Users",
-                column: "UserName",
-                unique: true);
+                column: "UserName");
         }
 
         /// <inheritdoc />

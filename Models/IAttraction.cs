@@ -10,4 +10,5 @@ public interface IAttraction
     public string Description { get; set; }
     public IAddress Address { get; set; }
     public Category Category { get; set; }
+    public List<IComments> Comments { get; set; }
 }

@@ -45,9 +45,6 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("StreetAddress", "City", "Country")
-                        .IsUnique();
-
                     b.ToTable("Addresses");
                 });
 
@@ -64,11 +61,9 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Seeded")
@@ -76,11 +71,7 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("AttractionId");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.HasIndex("Name", "Description")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Attractions");
                 });
@@ -95,7 +86,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Seeded")
@@ -112,9 +102,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.HasIndex("AttractionId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("Content", "Type")
-                        .IsUnique();
 
                     b.ToTable("Comments");
                 });
@@ -166,8 +153,7 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("UserName")
-                        .IsUnique();
+                    b.HasIndex("UserName");
 
                     b.ToTable("Users");
                 });
@@ -175,8 +161,8 @@ namespace DbContext.Migrations.SqlServerDbContext
             modelBuilder.Entity("DbModels.AttractionDbM", b =>
                 {
                     b.HasOne("DbModels.AddressDbM", "AddressDbM")
-                        .WithOne("AttractionsDbM")
-                        .HasForeignKey("DbModels.AttractionDbM", "AddressId")
+                        .WithMany("AttractionsDbM")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -186,7 +172,7 @@ namespace DbContext.Migrations.SqlServerDbContext
             modelBuilder.Entity("DbModels.CommentsDbM", b =>
                 {
                     b.HasOne("DbModels.AttractionDbM", "AttractionDbM")
-                        .WithMany()
+                        .WithMany("CommentsDbM")
                         .HasForeignKey("AttractionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -205,6 +191,11 @@ namespace DbContext.Migrations.SqlServerDbContext
             modelBuilder.Entity("DbModels.AddressDbM", b =>
                 {
                     b.Navigation("AttractionsDbM");
+                });
+
+            modelBuilder.Entity("DbModels.AttractionDbM", b =>
+                {
+                    b.Navigation("CommentsDbM");
                 });
 
             modelBuilder.Entity("DbModels.UserDbM", b =>

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace DbModels;
 
 [Table("Users")]
-[Index(nameof(UserName), IsUnique = true)]
+[Index(nameof(UserName))]
 sealed public class UserDbM : User, ISeed<UserDbM>, IEquatable<UserDbM>
 {
     [Key]
@@ -19,10 +19,10 @@ sealed public class UserDbM : User, ISeed<UserDbM>, IEquatable<UserDbM>
 
     #region correcting the Navigation properties migration error caused by using interfaces
     [NotMapped]
-    public override ICollection<IComments> Comments { get => CommentsDbM == null ? null : new List<IComments>((IEnumerable<IComments>)CommentsDbM); set => throw new NotImplementedException(); }
+    public override List<IComments> Comments { get => CommentsDbM?.ToList<IComments>(); set => new NotImplementedException(); }
 
     [JsonIgnore]
-    public ICollection<CommentsDbM> CommentsDbM { get; set; } = new List<CommentsDbM>();
+    public List<CommentsDbM> CommentsDbM { get; set; } = null;
     #endregion
 
     #region implementing IEquatable

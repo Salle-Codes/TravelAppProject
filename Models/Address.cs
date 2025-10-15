@@ -12,7 +12,7 @@ public class Address : IAddress, ISeed<Address>, IEquatable<Address>
 
     public override string ToString() => $"{StreetAddress}, {City}, {Country}";
 
-    public virtual IAttraction Attraction { get; set; } = null;
+    public virtual List<IAttraction> Attractions { get; set; } = null;
 
     #region constructors
     public Address() { }

@@ -8,18 +8,14 @@ using Seido.Utilities.SeedGenerator;
 namespace DbModels;
 
 [Table("Comments")]
-[Index(nameof(Content), nameof(Type), IsUnique = true)]
 sealed public class CommentsDbM : Comments, ISeed<CommentsDbM>, IEquatable<CommentsDbM>
 {
     [Key]
     public override Guid CommentId { get; set; }
-    [Required]
     public override string Content { get; set; }
     [Required]
     public override CommentType Type { get; set; }
-    [Required]
     public override Guid AttractionId { get; set; }
-    [Required]
     public override Guid UserId { get; set; }
 
     #region correcting the Navigation properties migration error caused by using interfaces

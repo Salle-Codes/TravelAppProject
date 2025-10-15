@@ -8,7 +8,7 @@ namespace Models
     {
         public virtual Guid UserId { get; set; }
         public virtual string UserName { get; set; }
-        public virtual ICollection<IComments> Comments { get; set; } = new List<IComments>();
+        public virtual List<IComments> Comments { get; set; } = null;
 
         public override string ToString() => $"{UserName}";
 

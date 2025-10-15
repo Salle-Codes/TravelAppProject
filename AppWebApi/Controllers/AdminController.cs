@@ -92,6 +92,26 @@ namespace AppWebApi.Controllers
             return Ok("No messages in log");
         }
 
+        [HttpGet()]
+        [ActionName("RemoveSeed")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> RemoveSeed()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(RemoveSeed)}");
+                await _service.RemoveSeedAsync();
+
+                return Ok("Seed removal completed successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(RemoveSeed)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         public AdminController(IAdminService service, ILogger<AdminController> logger,
                 DatabaseConnections dbConnections, IOptions<VersionOptions> versionOptions)
         {

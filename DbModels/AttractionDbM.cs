@@ -8,18 +8,14 @@ using Seido.Utilities.SeedGenerator;
 namespace DbModels;
 
 [Table("Attractions")]
-[Index(nameof(Name), nameof(Description), IsUnique = true)]
 sealed public class AttractionDbM : Attraction,ISeed<AttractionDbM> , IEquatable<AttractionDbM>
 {
     [Key]
     public override Guid AttractionId { get; set; }
-    [Required]
     public override string Name { get; set; }
-    [Required]
     public override string Description { get; set; }
     [Required]
     public override Category Category { get; set; }
-    [Required]
     public Guid AddressId { get; set; }
 
     #region correcting the Navigation properties migration error caused by using interfaces
@@ -30,6 +26,10 @@ sealed public class AttractionDbM : Attraction,ISeed<AttractionDbM> , IEquatable
     [ForeignKey("AddressId")]
     public AddressDbM AddressDbM { get; set; } = null;    //This is implemented in the database table
     #endregion
+    [NotMapped]
+    public override List<IComments> Comments { get => CommentsDbM?.ToList<IComments>(); set => new NotImplementedException(); }
+    [JsonIgnore]
+    public List<CommentsDbM> CommentsDbM { get; set; } = null;
 
     #region implementing IEquatable
     public bool Equals(AttractionDbM other) => (other != null) && ((this.Name, this.Description) ==

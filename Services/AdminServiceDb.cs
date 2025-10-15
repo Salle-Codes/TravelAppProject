@@ -10,6 +10,7 @@ public class AdminServiceDb : IAdminService
     private readonly ILogger<AdminServiceDb> _logger = null;
 
     public Task SeedAsync() => _repo.SeedAsync();
+    public Task RemoveSeedAsync() => _repo.RemoveSeedAsync();
 
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)

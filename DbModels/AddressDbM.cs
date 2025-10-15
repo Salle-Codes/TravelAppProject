@@ -8,7 +8,6 @@ using Models;
 
 namespace DbModels;
 [Table("Addresses")]
-[Index(nameof(StreetAddress), nameof(City), nameof(Country), IsUnique = true)]
 sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressDbM>
 {
     [Key]     
@@ -30,11 +29,11 @@ sealed public class AddressDbM : Address, ISeed<AddressDbM>, IEquatable<AddressD
     #endregion
 
     #region correcting the Navigation properties migration error caused by using interfaces
-    [NotMapped] //removed from EFC 
-    public override IAttraction Attraction { get => AttractionsDbM; set => new NotImplementedException(); }
+    [NotMapped]
+    public override List<IAttraction> Attractions { get => AttractionsDbM?.ToList<IAttraction>(); set => new NotImplementedException(); }
 
-    [JsonIgnore] //do not include in any json response from the WebApi
-    public AttractionDbM AttractionsDbM { get; set; } = null;
+    [JsonIgnore]
+    public List<AttractionDbM> AttractionsDbM { get; set; }
     #endregion
 
     #region randomly seed this instance

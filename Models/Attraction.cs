@@ -10,6 +10,7 @@ public class Attraction : IAttraction, ISeed<Attraction>
     public virtual string Description { get; set; }
     public virtual IAddress Address { get; set; } = null;
     public virtual Category Category { get; set; }
+    public virtual List<IComments> Comments { get; set; } = null;
     public override string ToString() => $"{Category}";
 
     #region Seeder
